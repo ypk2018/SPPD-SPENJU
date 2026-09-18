@@ -1,13 +1,14 @@
 import React from 'react';
-import { SppdData } from '../types';
+import { SppdData, PaperSize } from '../types';
 import { formatCurrency, formatDate, terbilang } from '../utils';
 import { KopSurat } from './KopSurat';
 
 interface Props {
   data: SppdData;
+  paperSize?: PaperSize;
 }
 
-export const RincianBiaya: React.FC<Props> = ({ data }) => {
+export const RincianBiaya: React.FC<Props> = ({ data, paperSize = 'F4' }) => {
   const lamaHari = Number(data.lamaHari) || 1;
   const uangHarianSatuan = Number(data.uangHarian) || 0;
   const totalUangHarian = uangHarianSatuan * lamaHari;
@@ -22,12 +23,16 @@ export const RincianBiaya: React.FC<Props> = ({ data }) => {
   const totalBiaya = totalUangHarian + biayaTransport + totalPenginapan + biayaLainnya;
 
   return (
-    <div className="w-full max-w-[21cm] min-h-[29.7cm] mx-auto bg-white p-8 md:p-12 text-black shadow-lg print:shadow-none text-[10.5pt] font-serif leading-relaxed border border-gray-200 print:border-none box-border">
+    <div 
+      className={`w-full mx-auto bg-white p-8 md:p-10 text-black shadow-lg print:shadow-none text-[10pt] font-serif leading-relaxed border border-gray-200 print:border-none box-border print:p-0 print:m-0 print:w-full print:max-w-none print:min-h-0 ${
+        paperSize === 'LEGAL' ? 'max-w-[216mm] min-h-[356mm]' : 'max-w-[215mm] min-h-[330mm]'
+      }`}
+    >
       <KopSurat data={data} />
       
-      <div className="text-center mb-5">
-        <h3 className="text-lg font-bold underline uppercase tracking-wider">Rincian Biaya Perjalanan Dinas</h3>
-        <p className="text-xs mt-1">Lampiran SPPD Nomor: {data.nomorSurat || '094 /       / SMPN7 / 2026'}</p>
+      <div className="text-center mb-4">
+        <h3 className="text-base font-bold underline uppercase tracking-wider">Rincian Biaya Perjalanan Dinas</h3>
+        <p className="text-xs mt-0.5">Lampiran SPPD Nomor: {data.nomorSurat || '094 /       / SMPN7 / 2026'}</p>
         <p className="text-xs">Tanggal: {formatDate(data.tanggalSurat)}</p>
       </div>
 
@@ -73,88 +78,88 @@ export const RincianBiaya: React.FC<Props> = ({ data }) => {
         </table>
       </div>
 
-      <table className="w-full border-collapse border border-black mb-4 text-[10pt]">
+      <table className="w-full border-collapse border border-black mb-3 text-[9pt]">
         <thead>
           <tr className="bg-gray-100 print:bg-gray-100 font-bold text-center">
-            <th className="border border-black p-2 w-10">No</th>
-            <th className="border border-black p-2 text-left">Perincian Biaya</th>
-            <th className="border border-black p-2 w-44 text-right">Jumlah (Rp)</th>
-            <th className="border border-black p-2 w-32 text-center">Keterangan</th>
+            <th className="border border-black px-2 py-1 w-10">No</th>
+            <th className="border border-black px-2 py-1 text-left">Perincian Biaya</th>
+            <th className="border border-black px-2 py-1 w-40 text-right">Jumlah (Rp)</th>
+            <th className="border border-black px-2 py-1 w-32 text-center">Keterangan</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td className="border border-black p-2 text-center align-top">1</td>
-            <td className="border border-black p-2 align-top">
+            <td className="border border-black px-2 py-1.5 text-center align-top">1</td>
+            <td className="border border-black px-2 py-1.5 align-top">
               <div className="font-semibold">Uang Harian / Uang Saku</div>
               <div className="text-xs text-gray-600 italic">
                 {lamaHari} Hari x {formatCurrency(uangHarianSatuan)}
               </div>
             </td>
-            <td className="border border-black p-2 text-right align-top font-mono font-medium">
+            <td className="border border-black px-2 py-1.5 text-right align-top font-mono font-medium">
               {formatCurrency(totalUangHarian)}
             </td>
-            <td className="border border-black p-2 text-center align-top text-xs">Standar Biaya Masukan</td>
+            <td className="border border-black px-2 py-1.5 text-center align-top text-xs">Standar Biaya Masukan</td>
           </tr>
           <tr>
-            <td className="border border-black p-2 text-center align-top">2</td>
-            <td className="border border-black p-2 align-top">
+            <td className="border border-black px-2 py-1.5 text-center align-top">2</td>
+            <td className="border border-black px-2 py-1.5 align-top">
               <div className="font-semibold">Biaya Transportasi PP</div>
               <div className="text-xs text-gray-600 italic">{data.alatAngkut || 'Kendaraan Darat'}</div>
             </td>
-            <td className="border border-black p-2 text-right align-top font-mono font-medium">
+            <td className="border border-black px-2 py-1.5 text-right align-top font-mono font-medium">
               {formatCurrency(biayaTransport)}
             </td>
-            <td className="border border-black p-2 text-center align-top text-xs">Tiket / BBM / Sewa</td>
+            <td className="border border-black px-2 py-1.5 text-center align-top text-xs">Tiket / BBM / Sewa</td>
           </tr>
           <tr>
-            <td className="border border-black p-2 text-center align-top">3</td>
-            <td className="border border-black p-2 align-top">
+            <td className="border border-black px-2 py-1.5 text-center align-top">3</td>
+            <td className="border border-black px-2 py-1.5 align-top">
               <div className="font-semibold">Biaya Penginapan / Hotel</div>
               <div className="text-xs text-gray-600 italic">
                 {malamMenginap > 0 ? `${malamMenginap} Malam x ${formatCurrency(biayaPenginapanSatuan)}` : 'Tidak menginap (PP)'}
               </div>
             </td>
-            <td className="border border-black p-2 text-right align-top font-mono font-medium">
+            <td className="border border-black px-2 py-1.5 text-right align-top font-mono font-medium">
               {formatCurrency(totalPenginapan)}
             </td>
-            <td className="border border-black p-2 text-center align-top text-xs">Kuitansi / Bill Hotel</td>
+            <td className="border border-black px-2 py-1.5 text-center align-top text-xs">Kuitansi / Bill Hotel</td>
           </tr>
           <tr>
-            <td className="border border-black p-2 text-center align-top">4</td>
-            <td className="border border-black p-2 align-top">
+            <td className="border border-black px-2 py-1.5 text-center align-top">4</td>
+            <td className="border border-black px-2 py-1.5 align-top">
               <div className="font-semibold">Biaya Riil / Lain-lain</div>
               {data.keteranganBiayaLainnya && (
                 <div className="text-xs text-gray-600 italic">{data.keteranganBiayaLainnya}</div>
               )}
             </td>
-            <td className="border border-black p-2 text-right align-top font-mono font-medium">
+            <td className="border border-black px-2 py-1.5 text-right align-top font-mono font-medium">
               {formatCurrency(biayaLainnya)}
             </td>
-            <td className="border border-black p-2 text-center align-top text-xs">Daftar Pengeluaran Riil</td>
+            <td className="border border-black px-2 py-1.5 text-center align-top text-xs">Daftar Pengeluaran Riil</td>
           </tr>
           <tr className="font-bold bg-gray-50 print:bg-gray-100">
-            <td className="border border-black p-2 text-center" colSpan={2}>
+            <td className="border border-black px-2 py-1.5 text-center" colSpan={2}>
               JUMLAH TOTAL
             </td>
-            <td className="border border-black p-2 text-right font-mono text-[11pt]">
+            <td className="border border-black px-2 py-1.5 text-right font-mono text-[10.5pt]">
               {formatCurrency(totalBiaya)}
             </td>
-            <td className="border border-black p-2 text-center"></td>
+            <td className="border border-black px-2 py-1.5 text-center"></td>
           </tr>
         </tbody>
       </table>
 
       {/* Terbilang */}
-      <div className="p-2.5 border border-dashed border-black bg-gray-50 print:bg-transparent rounded mb-6 text-[10pt]">
+      <div className="p-2 border border-dashed border-black bg-gray-50 print:bg-transparent rounded mb-4 text-[9.5pt]">
         <span className="font-bold italic">Terbilang : </span>
         <span className="italic font-semibold">{terbilang(totalBiaya)}</span>
       </div>
 
       {/* 3 Blok Tanda Tangan: Kepala Sekolah, Bendahara, Penerima */}
-      <div className="grid grid-cols-3 gap-2 mt-8 text-[9.5pt] print-break-inside-avoid">
+      <div className="grid grid-cols-3 gap-2 mt-4 text-[9pt] avoid-page-break print-break-inside-avoid">
         {/* Setuju dibayar / Kepala Sekolah */}
-        <div className="text-center flex flex-col justify-between h-48">
+        <div className="text-center flex flex-col justify-between h-36">
           <div>
             <p>Setuju dibayar,</p>
             <p className="font-bold">{data.pemberiPerintahJabatan}</p>
@@ -163,13 +168,13 @@ export const RincianBiaya: React.FC<Props> = ({ data }) => {
             (Tanda Tangan & Cap)
           </div>
           <div>
-            <p className="font-bold underline text-[10pt]">{data.pemberiPerintahNama || '...........................................'}</p>
-            <p>NIP. {data.pemberiPerintahNip || '...........................................'}</p>
+            <p className="font-bold underline text-[9.5pt]">{data.pemberiPerintahNama || '...........................................'}</p>
+            <p className="text-[8.5pt]">NIP. {data.pemberiPerintahNip || '...........................................'}</p>
           </div>
         </div>
 
         {/* Lunas dibayar / Bendahara */}
-        <div className="text-center flex flex-col justify-between h-48">
+        <div className="text-center flex flex-col justify-between h-36">
           <div>
             <p>Lunas dibayar tgl {formatDate(data.tanggalSurat)}</p>
             <p className="font-bold">Bendahara Pengeluaran,</p>
@@ -178,13 +183,13 @@ export const RincianBiaya: React.FC<Props> = ({ data }) => {
             (Tanda Tangan)
           </div>
           <div>
-            <p className="font-bold underline text-[10pt]">{data.bendaharaNama || 'Ruth Ohee, S.E.'}</p>
-            <p>NIP. {data.bendaharaNip || '19820715 200801 2 011'}</p>
+            <p className="font-bold underline text-[9.5pt]">{data.bendaharaNama || 'Ruth Ohee, S.E.'}</p>
+            <p className="text-[8.5pt]">NIP. {data.bendaharaNip || '19820715 200801 2 011'}</p>
           </div>
         </div>
 
         {/* Yang Menerima */}
-        <div className="text-center flex flex-col justify-between h-48">
+        <div className="text-center flex flex-col justify-between h-36">
           <div>
             <p>Sentani, {formatDate(data.tanggalSurat)}</p>
             <p className="font-bold">Yang Menerima,</p>
@@ -193,8 +198,8 @@ export const RincianBiaya: React.FC<Props> = ({ data }) => {
             (Tanda Tangan)
           </div>
           <div>
-            <p className="font-bold underline text-[10pt]">{data.pegawaiNama || '...........................................'}</p>
-            <p>NIP. {data.pegawaiNip ? data.pegawaiNip : '-'}</p>
+            <p className="font-bold underline text-[9.5pt]">{data.pegawaiNama || '...........................................'}</p>
+            <p className="text-[8.5pt]">NIP. {data.pegawaiNip ? data.pegawaiNip : '-'}</p>
           </div>
         </div>
       </div>

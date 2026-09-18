@@ -3,19 +3,24 @@
 @layer utilities {
   .print-break-inside-avoid {
     break-inside: avoid;
+    page-break-inside: avoid;
   }
 }
 
 @media print {
   @page {
-    size: A4 portrait;
-    margin: 1.2cm 1.5cm;
+    /* Ukuran Kertas F4 / Folio Standar Kedinasan Indonesia (215mm x 330mm) */
+    size: 215mm 330mm;
+    margin: 12mm 18mm 12mm 18mm;
   }
   
-  body {
+  html, body {
     background-color: white !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   /* Hide everything except printable area */
@@ -28,15 +33,31 @@
   }
   
   #printable-area {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    margin: 0;
-    padding: 0;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .no-print {
     display: none !important;
+  }
+
+  /* Page break helpers */
+  .page-break {
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+
+  .avoid-page-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Ensure tables render borders clearly when printed */
+  table {
+    border-collapse: collapse !important;
   }
 }

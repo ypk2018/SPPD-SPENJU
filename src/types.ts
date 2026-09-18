@@ -1,4 +1,5 @@
 export type DocumentType = 'SP' | 'SPPD' | 'SPPD_BELAKANG' | 'RINCIAN' | 'ALL';
+export type PaperSize = 'F4' | 'LEGAL';
 
 export interface SppdData {
   id?: string;
