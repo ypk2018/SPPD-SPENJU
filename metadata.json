@@ -1,0 +1,6 @@
+{
+  "name": "SPPD SMP Negeri 7 Sentani",
+  "description": "Aplikasi Pembuatan Surat Perintah Tugas (SPT), SPPD Lembar 1 & 2, dan Rincian Biaya dengan fitur Upload Data Excel/CSV untuk SMP Negeri 7 Sentani Kabupaten Jayapura.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
